@@ -3,5 +3,5 @@
 instalación
 
 ```
-npm install
+npm install 
 ```
