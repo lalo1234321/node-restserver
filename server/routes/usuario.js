@@ -1,14 +1,12 @@
 const express = require('express');
+const {verificarToken,verificarADMIN_ROLE} =require('../middlewares/autenticacion.js');
 const bcrypt=require('bcrypt');
 const _=require('underscore');
 const app = express();
 const Usuario=require('../models/usuario.js');
-app.get('/usuario',(req, res)=> 
+app.get('/usuario',verificarToken,(req, res)=> 
 {
-    // let condicion=
-    // {
-    //     estado:true
-    // }
+    
     let desde=req.query.desde||0;
     desde=Number(desde);
     let limite=req.query.limite||5;
@@ -37,9 +35,17 @@ app.get('/usuario',(req, res)=>
                 })
                 
             })
+            // res.json(
+            //     {
+            //         usuario:req.usuario,
+            //         nombre:req.usuario.nombre,
+            //         email:req.usuario.email,
+            //         validado:true
+            //     }); 
 });
-  app.post('/usuario',(req,res)=>
+  app.post('/usuario',[verificarToken,verificarToken],(req,res)=>
   {
+        
       let persona=req.body;
       let usuario=new Usuario(
           {
@@ -65,35 +71,47 @@ app.get('/usuario',(req, res)=>
                     ok:true,
                     usuario:usuarioDB
                 }); 
-       })   
+            // res.json(
+            //     {
+            //         usuario:req.usuario,
+            //         nombre:req.usuario.nombre,
+            //         email:req.usuario.email
+            //     }); 
+        })   
       
          
       
       
   }); 
-  app.put('/usuario/:id',(req,res)=>
+  app.put('/usuario/:id',[verificarToken,verificarToken],(req,res)=>
   {
-      let id=req.params.id;
-      let body=_.pick(req.body,['nombre','email','img','role','estado']);
-      Usuario.findByIdAndUpdate(id,body,{new:true,runValidators:true},(err,usuarioDB)=>
-      {
-          if(err)
-          {
-              return  res.status(400).json(
-                    {
-                        ok:false,
-                        err 
-                    });
-          }
-          res.json(
-              {
-                  ok:true,
-                  usuario:usuarioDB
-              });
-      });
+    let id=req.params.id;
+    let body=_.pick(req.body,['nombre','email','img','role','estado']);
+    Usuario.findByIdAndUpdate(id,body,{new:true,runValidators:true},(err,usuarioDB)=>
+    {
+        if(err)
+        {
+            return  res.status(400).json(
+                {
+                    ok:false,
+                    err 
+                });
+        }
+        res.json(
+            {
+                ok:true,
+                usuario:usuarioDB
+            });
+        res.json(
+            {
+                usuario:req.usuario,
+                nombre:req.usuario.nombre,
+                email:req.usuario.email
+            });    
+    });
       
   }); 
-  app.delete('/usuario/:id',(req,res)=>
+  app.delete('/usuario/:id',[verificarToken,verificarToken],(req,res)=>
   {
       let id=req.params.id;
       let cambiaEstado=
@@ -110,22 +128,18 @@ app.get('/usuario',(req, res)=>
                         err 
                     });
             }
-            // if(ususarioBorrado===null)
-            // {
-            //     return  res.status(400).json(
-            //         {
-            //             ok:false,
-            //             error:{
-            //                 message:'Usuario no encontrado'
-            //             }
-            //         });
-            // }
             
             res.json(
                 {
                     ok:true,
                     usuario:usuarioModificadoEstado
                 });
+            // res.json(
+            //     {
+            //         usuario:req.usuario,
+            //         nombre:req.usuario.nombre,
+            //         email:req.usuario.email
+            //     }); 
       })
   }); 
 

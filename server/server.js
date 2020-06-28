@@ -11,7 +11,7 @@ mongoose.connect(process.env.url, (err,res)=>
 {
     if(err) throw err;
     console.log('Conexión establecida con la base de datos'); 
-    console.log(res);
+    //console.log(res);
 });
 //lIBRERIA PARA EL X-WWW-FORM-URLENCODED
 const bodyParser = require('body-parser');
@@ -20,7 +20,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
-app.use(require('./routes/usuario'));
+app.use(require('./routes/index'));
+// app.use(require('./routes/usuario'));
+// app.use(require('./routes/login'));
 app.listen(process.env.PORT,()=>
 {
     console.log('Escuchando el puerto ',process.env.PORT);
