@@ -22,3 +22,6 @@ if(process.env.NODE_ENV==='dev')
 }
 process.env.url=URLDB;
 //'mongodb+srv://lalo24:'
+
+//Id del cliente de google
+process.env.CLIENT_ID=process.env.CLIENT_ID || '541892723282-udlcnpnr75ol155l0vtu7ca2497gc4kr.apps.googleusercontent.com'

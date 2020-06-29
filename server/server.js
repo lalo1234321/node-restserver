@@ -1,7 +1,8 @@
 require('./config/config.js');
 const express = require('express');
 const app = express();
-
+//librería que resuelve el path
+const path=require('path');
 //Libreria para establecer conexión con mongoDB
 const mongoose=require('mongoose');
 //Forma actual
@@ -20,6 +21,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+//habilitar la carpeta public
+app.use(express.static(path.resolve(__dirname,'../public')));
+//configuración de rutas globales
 app.use(require('./routes/index'));
 // app.use(require('./routes/usuario'));
 // app.use(require('./routes/login'));

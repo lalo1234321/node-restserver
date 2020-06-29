@@ -43,7 +43,7 @@ app.get('/usuario',verificarToken,(req, res)=>
             //         validado:true
             //     }); 
 });
-  app.post('/usuario',(req,res)=>
+  app.post('/usuario',[verificarToken,verificarToken],(req,res)=>
   {
         
       let persona=req.body;
