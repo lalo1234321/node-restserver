@@ -15,18 +15,20 @@ let verificarToken=(req,res,next)=>
                 });
         }
         req.usuario=decoded.usuario
+        
     })
-    //console.log(token);
     next();
+    //console.log(token);
+    
     // res.json(
     //     {
     //         token:token
     //     });
-};
+}
 let verificarADMIN_ROLE=(req,res,next)=>
 {
     let usuario=req.usuario;
-    if(usuario.role==='ADMIN__ROLE')
+    if(usuario.role==='ADMIN_ROLE')
     {
         next();
     }else{
@@ -34,6 +36,7 @@ let verificarADMIN_ROLE=(req,res,next)=>
         {
             ok:false,
             err:{
+                persona:`${usuario.nombre} no es admin?`,
                 message:'El usuario no es administrador'
             }
         })

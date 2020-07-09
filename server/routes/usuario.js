@@ -43,7 +43,7 @@ app.get('/usuario',verificarToken,(req, res)=>
             //         validado:true
             //     }); 
 });
-  app.post('/usuario',[verificarToken,verificarToken],(req,res)=>
+  app.post('/usuario',[verificarToken,verificarADMIN_ROLE],(req,res)=>
   {
         
       let persona=req.body;
@@ -83,7 +83,7 @@ app.get('/usuario',verificarToken,(req, res)=>
       
       
   }); 
-  app.put('/usuario/:id',[verificarToken,verificarToken],(req,res)=>
+  app.put('/usuario/:id',[verificarToken,verificarADMIN_ROLE],(req,res)=>
   {
     let id=req.params.id;
     let body=_.pick(req.body,['nombre','email','img','role','estado']);
@@ -97,11 +97,11 @@ app.get('/usuario',verificarToken,(req, res)=>
                     err 
                 });
         }
-        res.json(
-            {
-                ok:true,
-                usuario:usuarioDB
-            });
+        // res.json(
+        //     {
+        //         ok:true,
+        //         usuario:usuarioDB
+        //     });
         res.json(
             {
                 usuario:req.usuario,
@@ -111,7 +111,7 @@ app.get('/usuario',verificarToken,(req, res)=>
     });
       
   }); 
-  app.delete('/usuario/:id',[verificarToken,verificarToken],(req,res)=>
+  app.delete('/usuario/:id',[verificarToken,verificarADMIN_ROLE],(req,res)=>
   {
       let id=req.params.id;
       let cambiaEstado=
@@ -132,7 +132,7 @@ app.get('/usuario',verificarToken,(req, res)=>
             res.json(
                 {
                     ok:true,
-                    usuario:usuarioModificadoEstado
+                    message:'Laa categoría ha sido borrada con éxito'
                 });
             // res.json(
             //     {
