@@ -91,7 +91,8 @@ app.post('/producto',verificarToken,(req,res)=>
             descripcion:body.descripcion,
             disponible:true,
             categoria:body.categoria,
-            usuario:req.usuario._id
+            usuario:req.usuario._id,
+            img:'nada'
         });
     produc.save((err,productoDB)=>
     {
